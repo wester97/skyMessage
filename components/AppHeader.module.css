@@ -1,0 +1,100 @@
+.appHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #000000;
+  color: white;
+  height: 44px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  border-radius: 0;
+}
+
+@media (min-width: 768px) {
+  .appHeader {
+    margin: 20px auto 0;
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .appHeader {
+    border-radius: 0;
+  }
+}
+
+.transparent {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Home Button */
+.homeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 28px;
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  font-size: 18px;
+}
+
+.homeButton:hover {
+  opacity: 0.7;
+  color: white;
+}
+
+.homeButton:active {
+  opacity: 0.5;
+}
+
+/* Center Info */
+.centerInfo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.time {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Status Icons */
+.statusIcons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.statusIcons i {
+  opacity: 0.9;
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .appHeader {
+    padding: 6px 12px;
+  }
+
+  .time {
+    font-size: 13px;
+  }
+
+  .statusIcons {
+    gap: 8px;
+    font-size: 12px;
+  }
+}
+

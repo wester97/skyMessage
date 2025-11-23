@@ -1,0 +1,55 @@
+:root {
+  --ios-blue: #007aff;
+  --ios-gray: #8e8e93;
+  --ios-light-gray: #f2f2f7;
+  --ios-border: #e5e5ea;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #__next {
+  width: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+}
+
+@media (max-width: 767px) {
+  body {
+    background-color: #fff;
+  }
+}
+
+/* Override Bootstrap for iOS feel */
+.btn-primary {
+  background-color: var(--ios-blue);
+  border-color: var(--ios-blue);
+  border-radius: 20px;
+}
+
+.btn-primary:hover {
+  background-color: #0051d5;
+  border-color: #0051d5;
+}
+
+.btn-outline-secondary {
+  border-radius: 20px;
+  border-color: var(--ios-border);
+  color: var(--ios-gray);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--ios-light-gray);
+  border-color: var(--ios-border);
+  color: #000;
+}
+

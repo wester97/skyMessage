@@ -1,0 +1,230 @@
+{
+  "saints": [
+    {
+      "slug": "francis-of-assisi",
+      "displayName": "St. Francis of Assisi",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/06221a.htm",
+          "publisher": "New Advent",
+          "title": "St. Francis of Assisi"
+        },
+        {
+          "url": "https://www.vatican.va/content/john-paul-ii/en/audiences/1999/documents/hf_jp-ii_aud_19990113.html",
+          "publisher": "Vatican",
+          "title": "General Audience - St. Francis"
+        }
+      ]
+    },
+    {
+      "slug": "therese-of-lisieux",
+      "displayName": "St. Thérèse of Lisieux",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/14636b.htm",
+          "publisher": "New Advent",
+          "title": "St. Thérèse of Lisieux"
+        }
+      ]
+    },
+    {
+      "slug": "teresa-of-calcutta",
+      "displayName": "St. Teresa of Calcutta",
+      "urls": [
+        {
+          "url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20031019_madre-teresa_en.html",
+          "publisher": "Vatican",
+          "title": "Mother Teresa of Calcutta"
+        }
+      ]
+    },
+    {
+      "slug": "augustine-of-hippo",
+      "displayName": "St. Augustine of Hippo",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/02084a.htm",
+          "publisher": "New Advent",
+          "title": "St. Augustine of Hippo"
+        }
+      ]
+    },
+    {
+      "slug": "thomas-aquinas",
+      "displayName": "St. Thomas Aquinas",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/14663b.htm",
+          "publisher": "New Advent",
+          "title": "St. Thomas Aquinas"
+        }
+      ]
+    },
+    {
+      "slug": "padre-pio",
+      "displayName": "St. Pio of Pietrelcina",
+      "urls": [
+        {
+          "url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20020616_padre-pio_en.html",
+          "publisher": "Vatican",
+          "title": "Padre Pio of Pietrelcina"
+        }
+      ]
+    },
+    {
+      "slug": "john-paul-ii",
+      "displayName": "St. John Paul II",
+      "urls": [
+        {
+          "url": "https://www.vatican.va/content/john-paul-ii/en.html",
+          "publisher": "Vatican",
+          "title": "Pope John Paul II"
+        }
+      ]
+    },
+    {
+      "slug": "catherine-of-siena",
+      "displayName": "St. Catherine of Siena",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/03447a.htm",
+          "publisher": "New Advent",
+          "title": "St. Catherine of Siena"
+        }
+      ]
+    },
+    {
+      "slug": "ignatius-of-loyola",
+      "displayName": "St. Ignatius of Loyola",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/07639c.htm",
+          "publisher": "New Advent",
+          "title": "St. Ignatius of Loyola"
+        }
+      ]
+    },
+    {
+      "slug": "dominic-guzman",
+      "displayName": "St. Dominic",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/05106a.htm",
+          "publisher": "New Advent",
+          "title": "St. Dominic"
+        }
+      ]
+    },
+    {
+      "slug": "benedict-of-nursia",
+      "displayName": "St. Benedict",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/02467b.htm",
+          "publisher": "New Advent",
+          "title": "St. Benedict of Nursia"
+        }
+      ]
+    },
+    {
+      "slug": "scholastica",
+      "displayName": "St. Scholastica",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/13550a.htm",
+          "publisher": "New Advent",
+          "title": "St. Scholastica"
+        }
+      ]
+    },
+    {
+      "slug": "kateri-tekakwitha",
+      "displayName": "St. Kateri Tekakwitha",
+      "urls": [
+        {
+          "url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20121021_kateri-tekakwitha_en.html",
+          "publisher": "Vatican",
+          "title": "Kateri Tekakwitha"
+        }
+      ]
+    },
+    {
+      "slug": "joan-of-arc",
+      "displayName": "St. Joan of Arc",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/08409c.htm",
+          "publisher": "New Advent",
+          "title": "St. Joan of Arc"
+        }
+      ]
+    },
+    {
+      "slug": "john-henry-newman",
+      "displayName": "St. John Henry Newman",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/10794a.htm",
+          "publisher": "New Advent",
+          "title": "John Henry Newman"
+        }
+      ]
+    },
+    {
+      "slug": "josemaria-escriva",
+      "displayName": "St. Josemaría Escrivá",
+      "urls": [
+        {
+          "url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20021006_escriva_en.html",
+          "publisher": "Vatican",
+          "title": "Josemaría Escrivá de Balaguer"
+        }
+      ]
+    },
+    {
+      "slug": "maximilian-kolbe",
+      "displayName": "St. Maximilian Kolbe",
+      "urls": [
+        {
+          "url": "https://www.vatican.va/news_services/liturgy/documents/ns_lit_doc_19821010_massimiliano-kolbe_en.html",
+          "publisher": "Vatican",
+          "title": "Maximilian Maria Kolbe"
+        }
+      ]
+    },
+    {
+      "slug": "faustina-kowalska",
+      "displayName": "St. Faustina Kowalska",
+      "urls": [
+        {
+          "url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20000430_faustina_en.html",
+          "publisher": "Vatican",
+          "title": "Faustina Kowalska"
+        }
+      ]
+    },
+    {
+      "slug": "bernadette-soubirous",
+      "displayName": "St. Bernadette Soubirous",
+      "urls": [
+        {
+          "url": "https://www.newadvent.org/cathen/02498a.htm",
+          "publisher": "New Advent",
+          "title": "St. Bernadette Soubirous"
+        }
+      ]
+    },
+    {
+      "slug": "gianna-beretta-molla",
+      "displayName": "St. Gianna Beretta Molla",
+      "urls": [
+        {
+          "url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20040516_beretta-molla_en.html",
+          "publisher": "Vatican",
+          "title": "Gianna Beretta Molla"
+        }
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,242 @@
+/* Overlay background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Card container */
+.card {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  border-radius: 20px 20px 0 0;
+  z-index: 1001;
+  animation: slideUp 0.3s ease-out;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 768px) {
+  .card {
+    max-width: 500px;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+    border-radius: 20px;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(100%);
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  @keyframes slideUp {
+    from {
+      transform: translate(-50%, calc(50% + 100%));
+    }
+    to {
+      transform: translate(-50%, 50%);
+    }
+  }
+}
+
+/* Card header */
+.cardHeader {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.closeBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: #f2f2f7;
+  color: #8e8e93;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.closeBtn:hover {
+  background: #e5e5ea;
+  color: #000;
+}
+
+/* Card body */
+.cardBody {
+  padding: 0 24px 32px;
+  text-align: center;
+  max-height: 70vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #667eea;
+}
+
+.saintName {
+  font-size: 24px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 16px;
+}
+
+/* Action buttons (chat and favorite) */
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.circularBtn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 20px;
+}
+
+.circularBtn:hover {
+  background: #667eea;
+  color: white;
+  transform: scale(1.05);
+}
+
+.circularBtn:active {
+  transform: scale(0.95);
+}
+
+.circularBtn.favorite {
+  background: #667eea;
+  border-color: #667eea;
+  color: #ffd700;
+}
+
+.circularBtn.favorite:hover {
+  background: #764ba2;
+  border-color: #764ba2;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: #f8f9fa;
+  color: #6c757d;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+/* Info section */
+.infoSection {
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.infoItem i {
+  font-size: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.infoLabel {
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.infoValue {
+  font-size: 15px;
+  color: #212529;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Message button at bottom */
+.startChatBtn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 24px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.startChatBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.startChatBtn:active {
+  transform: translateY(0);
+}

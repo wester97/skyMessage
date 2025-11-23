@@ -1,0 +1,185 @@
+{
+  "saints": [
+    {
+      "slug": "francis-of-assisi",
+      "displayName": "St. Francis of Assisi",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/06221a.htm", "publisher": "New Advent"},
+        {"url": "https://www.franciscanmedia.org/saint-of-the-day/saint-francis-of-assisi", "publisher": "Franciscan Media"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=50", "publisher": "Catholic Online"}
+      ]
+    },
+    {
+      "slug": "therese-of-lisieux",
+      "displayName": "St. Thérèse of Lisieux",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/14564b.htm", "publisher": "New Advent"},
+        {"url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_19101997_stherese_en.html", "publisher": "Vatican"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=105", "publisher": "Catholic Online"}
+      ]
+    },
+    {
+      "slug": "teresa-of-calcutta",
+      "displayName": "St. Teresa of Calcutta",
+      "sources": [
+        {"url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20031019_madre-teresa_en.html", "publisher": "Vatican"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=5159", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/teresa-of-calcutta-423", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "john-paul-ii",
+      "displayName": "St. John Paul II",
+      "sources": [
+        {"url": "https://www.vatican.va/content/john-paul-ii/en.html", "publisher": "Vatican"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=5217", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/john-paul-ii-103", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "gianna-beretta-molla",
+      "displayName": "St. Gianna Beretta Molla",
+      "sources": [
+        {"url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20040516_beretta-molla_en.html", "publisher": "Vatican"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=4843", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/gianna-beretta-molla-1047", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "padre-pio",
+      "displayName": "St. Pio of Pietrelcina",
+      "sources": [
+        {"url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20020616_padre-pio_en.html", "publisher": "Vatican"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=224", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/pio-of-pietrelcina-128", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "augustine-of-hippo",
+      "displayName": "St. Augustine of Hippo",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/02084a.htm", "publisher": "New Advent"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=418", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/augustine-of-hippo-48", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "thomas-aquinas",
+      "displayName": "St. Thomas Aquinas",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/14663b.htm", "publisher": "New Advent"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=21", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/thomas-aquinas-136", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "catherine-of-siena",
+      "displayName": "St. Catherine of Siena",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/03447a.htm", "publisher": "New Advent"},
+        {"url": "https://www.vatican.va/content/paul-vi/en/homilies/1970/documents/hf_p-vi_hom_19701004.html", "publisher": "Vatican"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=215", "publisher": "Catholic Online"}
+      ]
+    },
+    {
+      "slug": "ignatius-of-loyola",
+      "displayName": "St. Ignatius of Loyola",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/07639c.htm", "publisher": "New Advent"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=64", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/ignatius-of-loyola-90", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "dominic-guzman",
+      "displayName": "St. Dominic",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/05106a.htm", "publisher": "New Advent"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=277", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/dominic-78", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "benedict-of-nursia",
+      "displayName": "St. Benedict",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/02467b.htm", "publisher": "New Advent"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=556", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/benedict-57", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "scholastica",
+      "displayName": "St. Scholastica",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/13532b.htm", "publisher": "New Advent"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=109", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/scholastica-131", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "kateri-tekakwitha",
+      "displayName": "St. Kateri Tekakwitha",
+      "sources": [
+        {"url": "https://www.vatican.va/content/benedict-xvi/en/homilies/2012/documents/hf_ben-xvi_hom_20121021_canonizzazioni.html", "publisher": "Vatican"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=154", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/kateri-tekakwitha-794", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "joan-of-arc",
+      "displayName": "St. Joan of Arc",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/08409c.htm", "publisher": "New Advent"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=295", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/joan-of-arc-92", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "john-henry-newman",
+      "displayName": "St. John Henry Newman",
+      "sources": [
+        {"url": "https://www.vatican.va/content/francesco/en/homilies/2019/documents/papa-francesco_20191013_omelia-canonizzazione.html", "publisher": "Vatican"},
+        {"url": "https://www.newadvent.org/cathen/10794a.htm", "publisher": "New Advent"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=7586", "publisher": "Catholic Online"}
+      ]
+    },
+    {
+      "slug": "josemaria-escriva",
+      "displayName": "St. Josemaría Escrivá",
+      "sources": [
+        {"url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20021006_escriva_en.html", "publisher": "Vatican"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=6358", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/josemaria-escriva-93", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "maximilian-kolbe",
+      "displayName": "St. Maximilian Kolbe",
+      "sources": [
+        {"url": "https://www.vatican.va/content/john-paul-ii/en/homilies/1982/documents/hf_jp-ii_hom_19821010_canonization.html", "publisher": "Vatican"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=370", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/maximilian-kolbe-109", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "faustina-kowalska",
+      "displayName": "St. Faustina Kowalska",
+      "sources": [
+        {"url": "https://www.vatican.va/news_services/liturgy/saints/ns_lit_doc_20000430_faustina_en.html", "publisher": "Vatican"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=5136", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/maria-faustina-kowalska-1075", "publisher": "EWTN"}
+      ]
+    },
+    {
+      "slug": "bernadette-soubirous",
+      "displayName": "St. Bernadette Soubirous",
+      "sources": [
+        {"url": "https://www.newadvent.org/cathen/02498a.htm", "publisher": "New Advent"},
+        {"url": "https://www.catholic.org/saints/saint.php?saint_id=109", "publisher": "Catholic Online"},
+        {"url": "https://www.ewtn.com/catholicism/saints/bernadette-soubirous-59", "publisher": "EWTN"}
+      ]
+    }
+  ]
+}
+

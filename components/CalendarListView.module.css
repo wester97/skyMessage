@@ -1,0 +1,280 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 44px); /* Account for AppHeader */
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  overflow-y: auto;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .container {
+    height: calc(100vh - 84px); /* 44px header + 40px margin */
+    margin: 0 auto 20px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/* Sticky Header */
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+  border-bottom: 2px solid #8a2be2;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.stickyHeader .monthName {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #8a2be2;
+}
+
+/* Content */
+.content {
+  padding: 0;
+}
+
+/* Sentinel for infinite scroll */
+.sentinel {
+  height: 1px;
+  width: 100%;
+}
+
+/* Month Section */
+.monthSection {
+  margin-bottom: 0;
+}
+
+.monthHeader {
+  padding: 20px 20px 12px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e5e5ea;
+}
+
+.monthHeader .monthName {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+}
+
+/* Events List */
+.eventsList {
+  padding: 0;
+}
+
+.eventItem {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 20px;
+  transition: background-color 0.2s ease;
+}
+
+.eventItem:hover {
+  background-color: rgba(138, 43, 226, 0.02);
+}
+
+.eventDate {
+  font-size: 16px;
+  font-weight: 600;
+  color: #8a2be2;
+  margin-bottom: 12px;
+}
+
+.todayEvent {
+  position: relative;
+}
+
+.todayEvent::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #ff9500;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Today Marker (Timeline) */
+.todayMarker {
+  position: relative;
+  padding: 12px 20px;
+}
+
+.todayDateLine {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ff9500;
+  gap: 8px;
+}
+
+.todayBadge {
+  display: inline-block;
+  background: #ff9500;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(255, 149, 0, 0.3);
+}
+
+.todayDateText {
+  color: #ff9500;
+  font-weight: 600;
+}
+
+.todayLine {
+  flex: 1;
+  height: 2px;
+  background: #ff9500;
+  border-radius: 1px;
+}
+
+.saintsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.saintLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  color: #000;
+  padding: 10px 14px;
+  background: rgba(138, 43, 226, 0.05);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.saintLink:hover {
+  background: rgba(138, 43, 226, 0.12);
+  transform: translateX(4px);
+}
+
+.saintInfo {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.chatIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8a2be2 0%, #4b0082 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(138, 43, 226, 0.3);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.saintLink:hover .chatIcon {
+  transform: scale(1.1);
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .stickyHeader {
+    padding: 12px 16px;
+    min-height: 56px;
+  }
+
+  .stickyHeader .monthName {
+    font-size: 20px;
+  }
+
+  .monthHeader {
+    padding: 16px 16px 10px 16px;
+  }
+
+  .monthHeader .monthName {
+    font-size: 18px;
+  }
+
+  .eventItem {
+    padding: 12px 16px;
+  }
+
+  .eventDate {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .todayMarker {
+    padding: 10px 16px;
+  }
+
+  .todayDateLine {
+    font-size: 15px;
+  }
+
+  .saintLink {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .chatIcon {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stickyHeader .monthName {
+    font-size: 18px;
+  }
+
+  .monthHeader .monthName {
+    font-size: 16px;
+  }
+
+  .eventDate {
+    font-size: 14px;
+  }
+
+  .todayMarker {
+    padding: 8px 12px;
+  }
+
+  .todayDateLine {
+    font-size: 14px;
+  }
+
+  .saintLink {
+    font-size: 13px;
+  }
+}
+

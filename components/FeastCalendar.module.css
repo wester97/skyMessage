@@ -1,0 +1,295 @@
+.calendarContainer {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 44px); /* Account for AppHeader */
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  overflow-y: auto;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+@media (min-width: 768px) {
+  .calendarContainer {
+    height: calc(100vh - 84px); /* 44px header + 40px margin */
+    margin: 0 auto 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .calendarContainer {
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/* Header */
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e5e5ea;
+  flex-shrink: 0;
+}
+
+.monthYear {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.monthYear h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+}
+
+.navButton {
+  background: none;
+  border: none;
+  color: #007aff;
+  font-size: 20px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.navButton:hover {
+  background-color: rgba(0, 122, 255, 0.1);
+}
+
+.navButton:active {
+  background-color: rgba(0, 122, 255, 0.2);
+}
+
+.todayButton {
+  background: none;
+  border: 1px solid #007aff;
+  color: #007aff;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.todayButton:hover {
+  background-color: rgba(0, 122, 255, 0.1);
+}
+
+.todayButton:active {
+  background-color: rgba(0, 122, 255, 0.2);
+  transform: scale(0.95);
+}
+
+/* Weekday Header */
+.weekdayHeader {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #f8f9fa;
+  border-bottom: 1px solid #e5e5ea;
+  padding: 8px 0;
+}
+
+.weekday {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8e8e93;
+  text-transform: uppercase;
+}
+
+/* Calendar Grid */
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background-color: #e5e5ea;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.calendarDay {
+  background: white;
+  min-height: 60px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.calendarDay:hover.hasFeast {
+  background: rgba(138, 43, 226, 0.08);
+  transform: scale(1.02);
+}
+
+.emptyDay {
+  background: #f8f9fa;
+}
+
+.dayNumber {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.today {
+  background: rgba(0, 122, 255, 0.05);
+}
+
+.today .dayNumber {
+  background: #007aff;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.hasFeast {
+  background: rgba(138, 43, 226, 0.03);
+}
+
+.selected {
+  background: rgba(138, 43, 226, 0.15) !important;
+  box-shadow: inset 0 0 0 2px #8a2be2;
+}
+
+.feastIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8a2be2 0%, #4b0082 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  margin-top: 2px;
+  box-shadow: 0 2px 4px rgba(138, 43, 226, 0.3);
+}
+
+/* Details Section */
+.detailsSection {
+  padding: 20px;
+  background: white;
+  border-top: 1px solid #e5e5ea;
+  margin-top: auto;
+}
+
+.detailsTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #8a2be2;
+  margin: 0 0 16px 0;
+}
+
+.saintsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.saintDetail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  color: #000;
+  padding: 12px 16px;
+  background: rgba(138, 43, 226, 0.05);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.saintDetail:hover {
+  background: rgba(138, 43, 226, 0.12);
+  transform: translateX(4px);
+}
+
+.saintInfo {
+  display: flex;
+  align-items: center;
+}
+
+.chatIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8a2be2 0%, #4b0082 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.saintDetail:hover .chatIcon {
+  transform: scale(1.1);
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .calendarHeader {
+    padding: 12px 16px;
+  }
+
+  .monthYear h2 {
+    font-size: 18px;
+  }
+
+  .navButton {
+    font-size: 18px;
+    padding: 6px 10px;
+  }
+
+  .calendarDay {
+    min-height: 70px;
+    padding: 6px;
+  }
+
+  .dayNumber {
+    font-size: 13px;
+  }
+
+  .saintName {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendarDay {
+    min-height: 60px;
+    padding: 4px;
+  }
+
+  .dayNumber {
+    font-size: 12px;
+  }
+
+  .saintName {
+    font-size: 9px;
+    -webkit-line-clamp: 1;
+  }
+}
+

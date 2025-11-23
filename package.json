@@ -1,0 +1,22 @@
+{
+  "name": "skymessage",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Catholic Saints Chat Application - Chat with Catholic saints using RAG",
+  "scripts": {
+    "dev": "npm run dev --prefix .",
+    "build": "npm run build --prefix .",
+    "start": "npm run start --prefix .",
+    "functions:deploy": "cd functions && firebase deploy --only functions",
+    "install:all": "npm install && cd functions && npm install"
+  },
+  "keywords": [
+    "catholic",
+    "saints",
+    "chat",
+    "rag",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT"
+}

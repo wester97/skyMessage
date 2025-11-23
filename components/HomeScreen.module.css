@@ -1,0 +1,220 @@
+.phoneScreen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  /* Account for safe areas (notch, status bar) */
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+@media (min-width: 768px) {
+  .phoneScreen {
+    height: calc(100vh - 40px);
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .phoneScreen {
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/* Home Content */
+.homeContent {
+  flex: 1;
+  padding: 20px 20px 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Feast Day Banner */
+.feastDayBanner {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feastDayCard {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feastDayCard:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.feastDayCard:active {
+  transform: translateY(0);
+}
+
+.feastDayIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8a2be2 0%, #4b0082 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
+}
+
+.feastDayInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.feastDayDate {
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.feastDayNames {
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* App Grid */
+.appGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  .appGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+
+/* App Icon */
+.appIcon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: transform 0.2s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.appIcon:active {
+  transform: scale(0.95);
+}
+
+.appIconCircle {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s;
+  pointer-events: none; /* Prevent icon from blocking clicks */
+}
+
+.appIcon:hover .appIconCircle {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.appIconCircle i {
+  font-size: 28px;
+  color: white;
+  pointer-events: none;
+}
+
+.appIconCircle img {
+  pointer-events: none;
+}
+
+.appName {
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Dock */
+.dock {
+  padding: 12px 20px 32px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px 24px 0 0;
+  margin: 0 12px 12px;
+}
+
+@media (max-width: 767px) {
+  .dock {
+    margin: 0;
+    border-radius: 24px 24px 0 0;
+  }
+}
+
+.dockContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Home indicator (iOS style) */
+.dock::after {
+  content: '';
+  display: block;
+  width: 134px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 100px;
+  margin: 16px auto 0;
+}
+
