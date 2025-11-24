@@ -11,6 +11,24 @@
     "functions:deploy": "cd functions && firebase deploy --only functions",
     "install:all": "npm install && cd functions && npm install"
   },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.5.1",
+    "bootstrap": "^5.3.2",
+    "firebase": "^11.10.0",
+    "next": "^14.2.0",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.9.1",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.9.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  },
   "keywords": [
     "catholic",
     "saints",
