@@ -1,48 +1,92 @@
-# SkyMessage - Catholic Saints Chat
+# SkyMessage
 
-Chat with Catholic saints using RAG (Retrieval-Augmented Generation).
+Catholic Saints Chat Application - Chat with Catholic saints using RAG (Retrieval-Augmented Generation).
 
 ## Quick Start
 
 ### 1. Install Dependencies
 
 ```bash
-npm install
+npm run install:all
 ```
 
-### 2. Configure Environment
+### 2. Set Up Firebase Secrets
 
-Copy `.env.local.example` to `.env.local` and fill in your Firebase configuration:
+Secrets are stored in Firebase, not in files. Set them up:
 
 ```bash
-cp .env.local.example .env.local
+cd functions
+firebase functions:secrets:set OPENAI_API_KEY
+firebase functions:secrets:set PINECONE_API_KEY
 ```
 
-### 3. Run Development Server
+Or use Firebase Console: Functions → Secrets tab
+
+### 3. Configure Environment Variables
+
+Create `.env.local` in the root:
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=ask-sky-message.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=ask-sky-message
+NEXT_PUBLIC_FUNCTIONS_URL=https://us-central1-ask-sky-message.cloudfunctions.net
+```
+
+For local function testing, create `functions/.env`:
+```env
+OPENAI_API_KEY=sk-...
+PINECONE_API_KEY=...
+PINECONE_INDEX=saints-v1
+```
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3001](http://localhost:3001)
+Opens at [http://localhost:3001](http://localhost:3001)
 
-### 4. Deploy Functions First
+## Deployment
 
-Before using the app, deploy the backend functions:
-
+### Deploy Everything
 ```bash
-cd ../../functions
-firebase deploy --only functions:askSky,functions:ingestSaint
+npm run deploy:all
 ```
 
-See parent directory's `SKYMESSAGE_README.md` for full setup instructions.
+### Deploy Individual Services
+```bash
+npm run deploy:hosting    # Hosting only
+npm run deploy:functions # Functions only
+npm run deploy:firestore # Firestore rules/indexes
+```
+
+### Local Emulators
+```bash
+npm run emulators
+```
+
+## Project Structure
+
+```
+.
+├── app/              # Next.js app directory
+├── components/       # React components
+├── functions/        # Firebase Functions
+│   ├── services/sky/ # SkyMessage backend
+│   ├── routes/       # API routes
+│   ├── database/     # Firestore utilities
+│   └── scripts/      # Utility scripts
+├── lib/              # Shared libraries
+└── public/           # Static assets
+```
 
 ## Features
 
 - **Ask a Saint**: Get responses as if conversing with a Catholic saint
 - **Emoji Story**: Tell saint stories in conversational emoji format
-- **Source Citations**: Every response includes sources for transparency
-- **20 Saints**: Pre-configured with popular Catholic saints
+- **Source Citations**: Every response includes sources
+- **Admin Interface**: Manage saints and scrape URLs
 
 ## Tech Stack
 
@@ -50,29 +94,26 @@ See parent directory's `SKYMESSAGE_README.md` for full setup instructions.
 - **React 18** with TypeScript
 - **Bootstrap 5** + React Bootstrap
 - **Firebase Functions** (backend)
+- **Firestore** (database)
 - **Pinecone** (vector database)
 - **OpenAI** (embeddings + chat)
 
-## Project Structure
+## Firebase Configuration
 
-```
-/app              # Next.js App Router pages
-/components       # React components
-/lib              # API client, types, seed data
-/public           # Static assets
-/styles           # Global styles
-```
+- **Project**: `ask-sky-message`
+- **Hosting**: Static export from `out/` directory
+- **Functions**: Deployed from `functions/` directory
+- **Firestore**: Named database `skymessage`
 
-## Development
+## Scripts
 
-- **Dev Server**: `npm run dev` (port 3001)
-- **Build**: `npm run build`
-- **Start**: `npm start`
-- **Lint**: `npm run lint`
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run deploy:all` - Deploy everything
+- `npm run deploy:hosting` - Deploy hosting only
+- `npm run deploy:functions` - Deploy functions only
+- `npm run emulators` - Start Firebase emulators
 
-## Related Documentation
+## License
 
-- `../../SKYMESSAGE_README.md` - Full documentation
-- `../../SKYMESSAGE_QUICK_START.md` - 5-minute quickstart
-- `../../SKYMESSAGE_URLS.md` - Source URLs for scraping
-
+MIT
