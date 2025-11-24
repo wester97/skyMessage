@@ -1,6 +1,6 @@
 import type { AskSaintRequest, AskSaintResponse } from './types'
 
-const FUNCTIONS_URL = process.env.NEXT_PUBLIC_FUNCTIONS_URL || 'https://us-central1-st-ann-ai.cloudfunctions.net'
+const FUNCTIONS_URL = process.env.NEXT_PUBLIC_FUNCTIONS_URL || 'https://us-central1-ask-sky-message.cloudfunctions.net'
 const USE_MOCK = false // Backend is now live!
 
 // Mock responses for testing
