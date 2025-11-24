@@ -29,12 +29,14 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "60",
     birthPlace: "Bethsaida, Galilee",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Martirio%20de%20San%20Andr%C3%A9s%2C%20por%20Juan%20Correa%20de%20Vivar.jpg",
+    hasBeard: true,
   },
   {
     slug: "anthony-of-padua",
     displayName: "St. Anthony of Padua",
     era: "4th and 5th century",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/%28Venice%29%20Sant%27Antonio%20da%20Padova%20by%20Alvise%20Vivarini%20-%20Correr%20Museum.jpg",
+    hasBeard: true,
   },
   {
     slug: "augustine-of-hippo",
@@ -44,6 +46,7 @@ export const SEED_SAINTS: Saint[] = [
     birthDate: "354",
     birthPlace: "Tagaste, Numidia",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Augustine%20Lateran.jpg",
+    hasBeard: true,
   },
   {
     slug: "benedict-of-nursia",
@@ -54,6 +57,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "543",
     birthPlace: "Nursia, Italy",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Benedict%20I.jpg",
+    hasBeard: true,
   },
   {
     slug: "bernadette-soubirous",
@@ -67,6 +71,7 @@ export const SEED_SAINTS: Saint[] = [
     slug: "blaise",
     displayName: "St. Blaise",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Dreux-Blaise.jpg",
+    hasBeard: true,
   },
   {
     slug: "brigid-of-ireland",
@@ -110,6 +115,7 @@ export const SEED_SAINTS: Saint[] = [
     patronages: ["travelers", "motorists", "sailors", "storms", "bachelors", "gardeners"],
     era: "3rd century",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Prince%20Brussels%201986%20%28retouched%29.jpg",
+    hasBeard: true,
   },
   {
     slug: "dominic-guzman",
@@ -120,6 +126,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "1221",
     birthPlace: "Calaroga, Spain",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Monmouth%20VIPs%20Bishop%20Dominic%20Walker.jpg",
+    hasBeard: true,
   },
   {
     slug: "elizabeth-ann-seton",
@@ -164,6 +171,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "1226",
     birthPlace: "Assisi, Italy",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/StFrancis%20part.jpg",
+    hasBeard: true,
   },
   {
     slug: "george",
@@ -172,6 +180,7 @@ export const SEED_SAINTS: Saint[] = [
     era: "early centuries",
     birthPlace: "Lydda, Palestine",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Giorgos%20Vovoras%20%28March%202021%29.png",
+    hasBeard: true,
   },
   {
     slug: "gerard-majella",
@@ -181,6 +190,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "1601",
     birthPlace: "Pibrac, France",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/San%20Gerardo%20Maiella.jpg",
+    hasBeard: true,
   },
   {
     slug: "gianna-beretta-molla",
@@ -202,6 +212,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "1556",
     birthPlace: "Azpeitia, Spain",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/St%20Ignatius%20of%20Loyola%20%281491-1556%29%20Founder%20of%20the%20Jesuits.jpg",
+    hasBeard: true,
   },
   {
     slug: "joan-of-arc",
@@ -226,6 +237,7 @@ export const SEED_SAINTS: Saint[] = [
     slug: "john-the-apostle",
     displayName: "St. John the Apostle",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Rubens%20apostel%20johannes%20grt.jpg",
+    hasBeard: true,
   },
   {
     slug: "josemaria-escriva",
@@ -235,6 +247,7 @@ export const SEED_SAINTS: Saint[] = [
     birthDate: "1902",
     birthPlace: "Barbastro, Spain",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Josemaria%20Escriva.jpg",
+    hasBeard: true,
   },
   {
     slug: "joseph",
@@ -243,6 +256,7 @@ export const SEED_SAINTS: Saint[] = [
     birthDate: "c. 1",
     birthPlace: "Bethlehem, Israel",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/SantaFioraSanGiuseppe2.jpg",
+    hasBeard: true,
   },
   {
     slug: "josephine-bakhita",
@@ -262,6 +276,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "1816",
     birthPlace: "Cuvilly, France",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Juan-Diego.jpg",
+    hasBeard: true,
   },
   {
     slug: "jude-thaddaeus",
@@ -276,6 +291,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "1270",
     birthPlace: "Poissy, France",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Premier%20sceau%20de%20majest%C3%A9%20de%20Louis%20IX%20d%C3%A9tour%C3%A9.png",
+    hasBeard: true,
   },
   {
     slug: "lucy",
@@ -307,6 +323,7 @@ export const SEED_SAINTS: Saint[] = [
     feastDay: "05-14",
     era: "1st century",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Anthony%20van%20Dyck%20-%20De%20apostel%20Mattheus%20-%20L%27apotre%20Matthieu%20-%20Fonds%20Generet%20-%20Koning%20Boudewijnstichting%20-%20Fondation%20Roi%20Baudouin.jpg",
+    hasBeard: true,
   },
   {
     slug: "monica",
@@ -322,12 +339,14 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "493",
     birthPlace: "Kilpatrick, Scotland",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Saint%20Patrick%20Catholic%20Church%20%28Junction%20City%2C%20Ohio%29%20-%20stained%20glass%2C%20Saint%20Patrick%20-%20detail.jpg",
+    hasBeard: true,
   },
   {
     slug: "paul",
     displayName: "St. Paul the Apostle",
     patronages: ["missionaries", "evangelists", "writers", "journalists", "authors", "public workers", "rope", "saddle makers", "tent makers"],
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Giovanni%20Francesco%20Barbieri%20-%20Saint%20Paul.jpg",
+    hasBeard: true,
   },
   {
     slug: "peter",
@@ -337,6 +356,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "c. 64",
     birthPlace: "Bethsaida, Israel",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Pope-peter%20pprubens.jpg",
+    hasBeard: true,
   },
   {
     slug: "philomena",
@@ -354,6 +374,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "1968",
     birthPlace: "Pietrelcina, Italy",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Padre%20Pio%20portrait.jpg",
+    hasBeard: true,
   },
   {
     slug: "rita-of-cascia",
@@ -380,6 +401,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "286",
     birthPlace: "Milan, Italy",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Simon%20Rex%20during%20an%20interview%2C%20March%202022.jpg",
+    hasBeard: true,
   },
   {
     slug: "teresa-benedicta",
@@ -426,6 +448,7 @@ export const SEED_SAINTS: Saint[] = [
     deathDate: "1274",
     birthPlace: "Rocca Secca, Kingdom of Naples",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/St-thomas-aquinasFXD.jpg",
+    hasBeard: true,
   },
   {
     slug: "valentine",
@@ -434,6 +457,7 @@ export const SEED_SAINTS: Saint[] = [
     patronages: ["love", "young people", "happy marriages", "beekeepers", "epilepsy", "travelers"],
     era: "3rd century",
     imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Macchina%20da%20scrivere%20valentine%2C%20ettore%20sottsass%2C%201969.JPG",
+    hasBeard: true,
   },
   {
     slug: "charbel",
@@ -443,5 +467,6 @@ export const SEED_SAINTS: Saint[] = [
     birthDate: "1828",
     deathDate: "1898",
     birthPlace: "Bekaa Kafra, Lebanon",
+    hasBeard: true,
   },
 ]
