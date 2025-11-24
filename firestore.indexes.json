@@ -1,0 +1,16 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "saints",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "display_name",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
+
