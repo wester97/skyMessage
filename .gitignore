@@ -41,7 +41,7 @@ logs/
 
 # Firebase
 .firebase/
-.firebaserc
+!.firebaserc
 
 # Temporary files
 tmp/
