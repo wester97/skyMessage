@@ -9,6 +9,7 @@ import CalendarListView from '@/components/CalendarListView'
 import PatronagesApp from '@/components/PatronagesApp'
 import GeographyApp from '@/components/GeographyApp'
 import ConfirmationFinder from '@/components/ConfirmationFinder'
+import SaintsWithBeardsApp from '@/components/SaintsWithBeardsApp'
 import AppHeader from '@/components/AppHeader'
 
 import type { Saint } from '@/lib/types'
@@ -111,6 +112,12 @@ export function AppRoutes() {
         <>
           <AppHeader />
           <ConfirmationFinder />
+        </>
+      } />
+      <Route path="/saints-with-beards" element={
+        <>
+          <AppHeader />
+          <SaintsWithBeardsApp />
         </>
       } />
     </Routes>

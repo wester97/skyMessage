@@ -61,6 +61,13 @@ const apps: AppIcon[] = [
     href: '/patronages'
   },
   {
+    id: 'saints-with-beards',
+    name: 'Bearded Brothers',
+    icon: 'fa-user-circle',
+    color: 'linear-gradient(135deg, #8b7355 0%, #5a4a3a 100%)', // Brown gradient
+    href: '/saints-with-beards'
+  },
+  {
     id: 'geography',
     name: 'Geography',
     icon: 'fa-globe-americas',

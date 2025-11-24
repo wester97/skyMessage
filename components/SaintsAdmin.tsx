@@ -2,16 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { Container, Row, Col, Card, Button, Form, InputGroup, Modal, Badge, Alert } from 'react-bootstrap'
-import { 
-  Search, 
-  Plus, 
-  Pencil, 
-  Trash, 
-  Link as LinkIcon,
-  X,
-  Save,
-  RefreshCw
-} from 'lucide-react'
 
 const FUNCTIONS_URL = process.env.NEXT_PUBLIC_FUNCTIONS_URL || 'https://us-central1-st-ann-ai.cloudfunctions.net'
 
@@ -233,7 +223,7 @@ export default function SaintsAdmin() {
           <div className="d-flex justify-content-between align-items-center">
             <h2>Saints Management</h2>
             <Button variant="primary" onClick={() => handleOpenModal()}>
-              <Plus size={18} className="me-2" />
+              <i className="fas fa-plus me-2"></i>
               Add Saint
             </Button>
           </div>
@@ -263,13 +253,13 @@ export default function SaintsAdmin() {
               onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
             />
             <Button variant="outline-secondary" onClick={handleSearch}>
-              <Search size={18} />
+              <i className="fas fa-search"></i>
             </Button>
           </InputGroup>
         </Col>
         <Col md={6} className="text-end">
           <Button variant="outline-secondary" onClick={fetchSaints}>
-            <RefreshCw size={18} className="me-2" />
+            <i className="fas fa-sync me-2"></i>
             Refresh
           </Button>
         </Col>
@@ -315,7 +305,7 @@ export default function SaintsAdmin() {
                       size="sm"
                       onClick={() => handleOpenModal(saint)}
                     >
-                      <Pencil size={14} className="me-1" />
+                      <i className="fas fa-pencil me-1"></i>
                       Edit
                     </Button>
                     <Button
@@ -323,7 +313,7 @@ export default function SaintsAdmin() {
                       size="sm"
                       onClick={() => handleDelete(saint)}
                     >
-                      <Trash size={14} className="me-1" />
+                      <i className="fas fa-trash me-1"></i>
                       Delete
                     </Button>
                   </div>
@@ -487,7 +477,7 @@ export default function SaintsAdmin() {
                       size="sm"
                       onClick={() => handleRemoveUrl(index)}
                     >
-                      <X size={14} />
+                      <i className="fas fa-times"></i>
                     </Button>
                   </div>
                 ))}
@@ -507,7 +497,7 @@ export default function SaintsAdmin() {
                   style={{ maxWidth: '150px' }}
                 />
                 <Button variant="outline-secondary" onClick={handleAddUrl}>
-                  <LinkIcon size={14} className="me-1" />
+                  <i className="fas fa-link me-1"></i>
                   Add
                 </Button>
               </InputGroup>
@@ -519,7 +509,7 @@ export default function SaintsAdmin() {
             Cancel
           </Button>
           <Button variant="primary" onClick={handleSave}>
-            <Save size={18} className="me-2" />
+            <i className="fas fa-save me-2"></i>
             {editingSaint ? 'Update' : 'Create'}
           </Button>
         </Modal.Footer>
