@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getFirestore, collection, query, orderBy, getDocs } from 'firebase/firestore'
-import { initializeApp, getApps } from 'firebase/app'
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app'
 
 // Initialize Firebase if not already initialized
-let app
+let app: FirebaseApp
 if (getApps().length === 0) {
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
