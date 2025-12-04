@@ -2,9 +2,9 @@
 
 import { useState, useRef } from 'react'
 import { Form, Badge, ListGroup, InputGroup } from 'react-bootstrap'
-import { SEED_SAINTS } from '@/lib/seed'
 import type { Saint } from '@/lib/types'
 import { useFavorites } from '@/contexts/FavoritesContext'
+import { useSaints } from '@/lib/useSaints'
 import SaintCard from './SaintCard'
 import styles from './SaintSelector.module.css'
 
@@ -51,9 +51,10 @@ export default function SaintSelector({
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const { isFavorite } = useFavorites()
+  const { saints } = useSaints()
 
   // Filter saints based on search term and favorites filter
-  const filteredSaints = SEED_SAINTS.filter((saint) => {
+  const filteredSaints = saints.filter((saint) => {
     const searchLower = searchTerm.toLowerCase()
     const matchesSearch = 
       saint.displayName.toLowerCase().includes(searchLower) ||

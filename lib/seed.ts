@@ -114,7 +114,7 @@ export const SEED_SAINTS: Saint[] = [
     displayName: "St. Christopher",
     patronages: ["travelers", "motorists", "sailors", "storms", "bachelors", "gardeners"],
     era: "3rd century",
-    imageUrl: "http://commons.wikimedia.org/wiki/Special:FilePath/Prince%20Brussels%201986%20%28retouched%29.jpg",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0a/Prince_Brussels_1986_%28retouched%29.jpg",
     hasBeard: true,
   },
   {

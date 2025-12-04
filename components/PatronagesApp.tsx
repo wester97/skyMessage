@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { PATRONAGE_CATEGORIES, type PatronageCategory, type PatronageSubcategory } from '@/lib/patronageCategories'
-import { SEED_SAINTS } from '@/lib/seed'
 import { Link } from 'react-router-dom'
+import { useSaints } from '@/lib/useSaints'
 import styles from './PatronagesApp.module.css'
 
 type ViewState = 'categories' | 'subcategories' | 'patronages' | 'results'
@@ -14,6 +14,7 @@ export default function PatronagesApp() {
   const [selectedSubcategory, setSelectedSubcategory] = useState<PatronageSubcategory | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<Array<{ patronage: string; saints: any[] }>>([])
+  const { saints } = useSaints()
 
   // Handle search
   const handleSearch = (query: string) => {
@@ -34,7 +35,7 @@ export default function PatronagesApp() {
         subcategory.patronages.forEach(patronage => {
           if (patronage.toLowerCase().includes(lowerQuery)) {
             // Find saints with this patronage
-            const saintsForPatronage = SEED_SAINTS.filter(saint =>
+            const saintsForPatronage = saints.filter(saint =>
               saint.patronages?.some(p => p.toLowerCase() === patronage.toLowerCase())
             )
             
@@ -77,7 +78,7 @@ export default function PatronagesApp() {
 
   // Get saints for a specific patronage
   const getSaintsForPatronage = (patronage: string) => {
-    return SEED_SAINTS.filter(saint =>
+    return saints.filter(saint =>
       saint.patronages?.some(p => p.toLowerCase() === patronage.toLowerCase())
     )
   }

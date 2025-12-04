@@ -22,7 +22,7 @@ if (!admin.apps.length) {
   if (process.env.FUNCTIONS_EMULATOR === "true") {
     // Emulator environment
     admin.initializeApp({
-      projectId: "st-ann-ai",
+      projectId: "ask-sky-message",
     });
   } else if (process.env.FIREBASE_CONFIG) {
     // Production Firebase Functions environment
@@ -30,19 +30,18 @@ if (!admin.apps.length) {
   } else {
     // Local development - try to initialize with default config
     admin.initializeApp({
-      projectId: "st-ann-ai",
+      projectId: "ask-sky-message",
     });
   }
 }
 
-// Use the 'skymessage' database instead of default
-// Use modular SDK to access named database
+// Use the default database (matches saints-firestore.js)
 const app = admin.app();
-const db = getFirestore(app, 'skymessage');
+const db = getFirestore(app); // Using default database
 
 // Read seed data from TypeScript file
 function readSeedData() {
-  const seedPath = path.join(__dirname, '../../apps/skymessage/lib/seed.ts');
+  const seedPath = path.join(__dirname, '../../lib/seed.ts');
   
   if (!fs.existsSync(seedPath)) {
     throw new Error(`Seed file not found: ${seedPath}`);

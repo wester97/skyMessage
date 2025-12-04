@@ -54,6 +54,19 @@ Example format for a MALE saint:
 `;
 
 async function askSaint(req, res) {
+  // Handle OPTIONS preflight request
+  if (req.method === 'OPTIONS') {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(204).send('');
+  }
+
+  // Set CORS headers for all requests
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+
   try {
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY?.trim() });
     
@@ -139,6 +152,10 @@ async function askSaint(req, res) {
     res.json(response);
   } catch (e) {
     console.error("askSaint error:", e);
+    // Ensure CORS headers are set even on error
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type');
     res.status(500).json({ error: e?.message || "unknown error" });
   }
 }

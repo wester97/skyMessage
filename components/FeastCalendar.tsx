@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { SEED_SAINTS } from '@/lib/seed'
+import type { Saint } from '@/lib/types'
+import { useSaints } from '@/lib/useSaints'
 import styles from './FeastCalendar.module.css'
 
 interface FeastDay {
@@ -26,12 +27,18 @@ export default function FeastCalendar() {
   const [currentMonth, setCurrentMonth] = useState(today.getMonth())
   const [currentYear, setCurrentYear] = useState(today.getFullYear())
   const [selectedDay, setSelectedDay] = useState<number | null>(null)
+  
+  // Fetch saints from Firestore via API
+  const { saints, isLoading: isLoadingSaints } = useSaints()
 
   // Get feast days for saints
   const getFeastDaysForMonth = (month: number): FeastDay[] => {
     const feastDays: { [key: string]: FeastDay } = {}
 
-    SEED_SAINTS.forEach((saint) => {
+    console.log(`[FeastCalendar] getFeastDaysForMonth called for month ${month} (${MONTH_NAMES[month]})`)
+    console.log(`[FeastCalendar] Total saints loaded: ${saints.length}`)
+    
+    saints.forEach((saint) => {
       if (saint.feastDay) {
         const [feastMonth, feastDate] = saint.feastDay.split('-').map(Number)
         if (feastMonth - 1 === month) {
@@ -47,11 +54,14 @@ export default function FeastCalendar() {
             displayName: saint.displayName,
             feastDay: saint.feastDay,
           })
+          console.log(`[FeastCalendar] Added ${saint.displayName} with feast day ${saint.feastDay} to month ${month}`)
         }
       }
     })
 
-    return Object.values(feastDays).sort((a, b) => a.date.localeCompare(b.date))
+    const result = Object.values(feastDays).sort((a, b) => a.date.localeCompare(b.date))
+    console.log(`[FeastCalendar] Found ${result.length} feast days for ${MONTH_NAMES[month]}:`, result.map(f => f.date))
+    return result
   }
 
   // Get calendar days

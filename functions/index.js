@@ -11,45 +11,18 @@ if (!admin.apps.length) {
 const openaiApiKey = defineSecret("OPENAI_API_KEY");
 const pineconeApiKey = defineSecret("PINECONE_API_KEY");
 
-// CORS headers function
-const setCorsHeaders = (response, request) => {
-  const allowedOrigins = [
-    "http://localhost:3000",
-    "https://localhost:3000",
-    "https://skymessage.chatjp2.app",
-    "https://ask-sky-message.web.app",
-    "https://ask-sky-message.firebaseapp.com",
-  ];
-
-  const origin = request.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    response.set("Access-Control-Allow-Origin", origin);
-  }
-  // Allow skymessage subdomains
-  else if (origin && origin.match(/^https:\/\/.*skymessage.*$/)) {
-    response.set("Access-Control-Allow-Origin", origin);
-  }
-
-  response.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  response.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
-  response.set("Access-Control-Allow-Credentials", "true");
-};
-
 // SkyMessage: Ask a saint endpoint
+// Note: cors: true automatically handles CORS for all origins including localhost
+// No manual CORS headers needed - Firebase Functions v2 handles it automatically
 exports.askSky = onRequest(
   {
     secrets: [openaiApiKey, pineconeApiKey],
     memory: "512MiB",
     timeoutSeconds: 60,
-    cors: true,
+    cors: true, // Automatically allows localhost and handles OPTIONS requests
+    invoker: 'public', // Allow unauthenticated access (required for web clients)
   },
   async (req, res) => {
-    setCorsHeaders(res, req);
-    
-    if (req.method === "OPTIONS") {
-      return res.status(204).send("");
-    }
-    
     const { askSaint } = require("./services/sky");
     await askSaint(req, res);
   }
@@ -61,16 +34,29 @@ exports.ingestSaint = onRequest(
     secrets: [openaiApiKey, pineconeApiKey],
     memory: "1GiB",
     timeoutSeconds: 540, // 9 minutes for embedding many chunks
+    cors: true, // Automatically allows localhost and handles OPTIONS requests
   },
   async (req, res) => {
-    setCorsHeaders(res, req);
-    
-    if (req.method === "OPTIONS") {
-      return res.status(204).send("");
-    }
-    
     const { ingestSaint } = require("./services/sky");
     await ingestSaint(req, res);
+  }
+);
+
+// SkyMessage: Match user with saints using AI
+// Note: cors: true automatically handles CORS for all origins including localhost
+// Firebase Functions v2 handles OPTIONS preflight requests automatically
+// invoker: 'public' allows unauthenticated access (required for web clients)
+exports.matchSaints = onRequest(
+  {
+    secrets: [openaiApiKey],
+    memory: "512MiB",
+    timeoutSeconds: 60,
+    cors: true, // Automatically allows localhost and handles OPTIONS requests
+    invoker: 'public', // Allow unauthenticated invocations
+  },
+  async (req, res) => {
+    const { matchSaints } = require("./services/sky");
+    await matchSaints(req, res);
   }
 );
 

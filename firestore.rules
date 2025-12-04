@@ -1,8 +1,20 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Saints collection - read only for public, write requires auth
+    // Saints collection - public read access, write requires auth
     match /saints/{saintId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Allow queries on the saints collection
+    match /saints {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Raw subcollections - public read access
+    match /saints/{saintId}/raw/{rawId} {
       allow read: if true;
       allow write: if request.auth != null;
     }
@@ -13,4 +25,5 @@ service cloud.firestore {
     }
   }
 }
+
 

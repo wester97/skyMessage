@@ -23,6 +23,7 @@ export interface Message {
     url?: string
   }>
   speaker?: string // Initial or name for dialogue speakers (G for God, J for Jesus, etc.)
+  contactCard?: Saint // Saint data for inline contact card display
 }
 
 export interface AskSaintRequest {
@@ -39,5 +40,19 @@ export interface AskSaintResponse {
     url?: string
   }>
   saint: string
+}
+
+export interface MatchSaintsRequest {
+  traits: string[]
+  gender: 'male' | 'female'
+}
+
+export interface MatchSaintsResponse {
+  matches: Array<{
+    saint: Saint
+    score: number
+    explanation: string
+    summary: string
+  }>
 }
 

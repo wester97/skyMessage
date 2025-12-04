@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment variables (for local scripts only)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Firebase
+.firebase/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+

@@ -8,17 +8,20 @@
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
+    "deploy": "./deploy.sh all",
+    "deploy:askSky": "./deploy.sh askSky",
+    "deploy:raw": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
   "dependencies": {
-    "firebase-admin": "^13.5.0",
+    "firebase-admin": "^12.7.0",
     "firebase-functions": "^5.0.0",
     "openai": "^4.0.0",
     "@pinecone-database/pinecone": "^2.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.0.0"
+    "eslint": "^8.0.0",
+    "dotenv": "^16.0.0"
   },
   "engines": {
     "node": "20"

@@ -2,9 +2,9 @@
 
 import { useState, useMemo } from 'react'
 import { InputGroup, Form, ListGroup } from 'react-bootstrap'
-import { SEED_SAINTS } from '@/lib/seed'
 import { extractCountry, type CountryInfo } from '@/lib/countryMapping'
 import type { Saint } from '@/lib/types'
+import { useSaints } from '@/lib/useSaints'
 import styles from './GeographyApp.module.css'
 
 interface CountryGroup {
@@ -15,12 +15,13 @@ interface CountryGroup {
 export default function GeographyApp() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCountry, setSelectedCountry] = useState<CountryInfo | null>(null)
+  const { saints } = useSaints()
 
   // Group saints by country
   const countryGroups = useMemo(() => {
     const groups: Record<string, CountryGroup> = {}
     
-    SEED_SAINTS.forEach((saint) => {
+    saints.forEach((saint) => {
       const country = extractCountry(saint?.birthPlace)
       if (country) {
         const key = country.name
@@ -43,7 +44,7 @@ export default function GeographyApp() {
     return Object.values(groups).sort((a, b) => 
       a.country.name.localeCompare(b.country.name)
     )
-  }, [])
+  }, [saints])
 
   // Filter countries by search term
   const filteredCountries = useMemo(() => {

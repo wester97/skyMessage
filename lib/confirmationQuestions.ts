@@ -21,14 +21,14 @@ export interface Question {
 export const CONFIRMATION_QUESTIONS: Question[] = [
   {
     id: 'gender',
-    text: 'Do you have a preference?',
+    text: 'What is your gender?',
     optionA: {
-      text: 'Male Saints',
+      text: 'Male',
       icon: 'fa-mars',
       traits: ['male']
     },
     optionB: {
-      text: 'Female Saints',
+      text: 'Female',
       icon: 'fa-venus',
       traits: ['female']
     }

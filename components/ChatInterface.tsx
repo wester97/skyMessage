@@ -3,9 +3,11 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SaintSelector from './SaintSelector'
+import ContactCard from './ContactCard'
+import SaintCard from './SaintCard'
 import { askSaint } from '@/lib/api'
-import { SEED_SAINTS } from '@/lib/seed'
 import type { Saint, Message } from '@/lib/types'
+import { useSaints } from '@/lib/useSaints'
 import '../app/chat.css'
 
 interface ChatInterfaceProps {
@@ -23,12 +25,30 @@ interface ChatInterfaceProps {
 
 // Helper function to format feast day (MM-DD to readable format)
 function formatFeastDay(feastDay: string): string {
+  // Validate format (should be MM-DD)
+  if (!feastDay || typeof feastDay !== 'string' || !/^\d{2}-\d{2}$/.test(feastDay)) {
+    console.warn('[formatFeastDay] Invalid feast day format:', feastDay)
+    return feastDay || 'Unknown date'
+  }
+  
   const [month, day] = feastDay.split('-')
+  const monthNum = parseInt(month, 10)
+  const dayNum = parseInt(day, 10)
+  
+  // Validate month and day ranges
+  if (isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
+    console.warn('[formatFeastDay] Invalid month:', month)
+    return feastDay
+  }
+  if (isNaN(dayNum) || dayNum < 1 || dayNum > 31) {
+    console.warn('[formatFeastDay] Invalid day:', day)
+    return feastDay
+  }
+  
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-  const monthName = monthNames[parseInt(month) - 1]
+  const monthName = monthNames[monthNum - 1]
   
   // Add ordinal suffix (1st, 2nd, 3rd, 4th, etc.)
-  const dayNum = parseInt(day)
   let suffix = 'th'
   if (dayNum === 1 || dayNum === 21 || dayNum === 31) suffix = 'st'
   else if (dayNum === 2 || dayNum === 22) suffix = 'nd'
@@ -57,10 +77,13 @@ export default function ChatInterface({
   const [isWaitingForAPI, setIsWaitingForAPI] = useState(false) // For typing indicator
   const [showContactsList, setShowContactsList] = useState(false) // Don't auto-show contacts - show empty state instead
   const [showQuickQuestions, setShowQuickQuestions] = useState(false) // Quick questions menu
+  const [showContactCardModal, setShowContactCardModal] = useState(false)
+  const [selectedContactSaint, setSelectedContactSaint] = useState<Saint | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const greetingSentRef = useRef(false)
   const previousSaintRef = useRef<string | null>(null)
+  const { saints } = useSaints()
 
   // Reset greeting flag when saint changes
   useEffect(() => {
@@ -104,13 +127,13 @@ export default function ChatInterface({
 
   // Handle pre-selected saint from URL
   useEffect(() => {
-    if (preSelectedSaint && !selectedSaint) {
-      const saint = SEED_SAINTS.find((s) => s.slug === preSelectedSaint)
+    if (preSelectedSaint && !selectedSaint && saints.length > 0) {
+      const saint = saints.find((s) => s.slug === preSelectedSaint)
       if (saint) {
         handleSelectSaint(saint)
       }
     }
-  }, [preSelectedSaint]) // Only run when preSelectedSaint changes
+  }, [preSelectedSaint, saints]) // Run when preSelectedSaint or saints change
 
   // Auto-send greeting message
   useEffect(() => {
@@ -181,9 +204,33 @@ export default function ChatInterface({
     }
   }, [autoGreeting, selectedSaint, messages.length]) // Run when conditions change
 
+  // Helper function to check if text is emoji-only (excluding numbers, letters, and punctuation)
+  const isEmojiOnly = (text: string): boolean => {
+    const trimmed = text.trim()
+    if (!trimmed) return false
+    
+    // Remove all emoji characters and whitespace
+    // If anything remains (letters, numbers, punctuation), it's not emoji-only
+    const emojiPattern = /[\p{Emoji}\p{Emoji_Presentation}\p{Emoji_Modifier_Base}\p{Emoji_Modifier}\p{Emoji_Component}\s]/gu
+    const textWithoutEmojis = trimmed.replace(emojiPattern, '')
+    
+    // If there's any remaining content (like numbers, letters, punctuation), it's not emoji-only
+    // Also ensure the original text actually contains emojis
+    const hasEmoji = /[\p{Emoji}\p{Emoji_Presentation}\p{Emoji_Modifier_Base}\p{Emoji_Modifier}\p{Emoji_Component}]/u.test(trimmed)
+    
+    return textWithoutEmojis.length === 0 && hasEmoji
+  }
+
   const handleSendMessage = async () => {
     // For general mode, no saint selection required
     if (!inputText.trim() || (mode === 'saint' && !selectedSaint)) return
+    
+    // Prevent emoji-only messages from users (only AI should send emoji-only messages)
+    if (isEmojiOnly(inputText)) {
+      // Don't send the message - just return silently or show a subtle error
+      console.log('[ChatInterface] Blocked emoji-only user message')
+      return
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -210,8 +257,26 @@ export default function ChatInterface({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query: inputText }),
         })
-        if (!res.ok) throw new Error('Failed to get response')
+        if (!res.ok) {
+          // Try to get error details
+          let errorMessage = 'Failed to get response'
+          try {
+            const errorData = await res.json()
+            errorMessage = errorData.error || errorData.message || errorMessage
+            console.error('[ChatInterface] Chorus API error:', errorData)
+          } catch (e) {
+            const errorText = await res.text()
+            console.error('[ChatInterface] Chorus API error text:', errorText)
+            errorMessage = errorText || errorMessage
+          }
+          throw new Error(errorMessage)
+        }
         response = await res.json()
+        console.log('[ChatInterface] Chorus response:', { 
+          hasText: !!response.text, 
+          hasContactCard: !!response.contactCard,
+          contactCardSaint: response.contactCard?.displayName 
+        })
       } else {
         // Saint mode - use askSaint API
         // Check if user is asking for story - always use emoji story for saint stories
@@ -459,6 +524,32 @@ export default function ChatInterface({
             }
             setMessages((prev) => [...prev, finalMessage])
           }
+          
+          // If there's a contact card (saint was detected), add follow-up message
+          if (response.contactCard && mode === 'general') {
+            await new Promise(resolve => setTimeout(resolve, 1500))
+            
+            // Add "Here is their contact info" message
+            const contactInfoMessage: Message = {
+              id: `${Date.now()}-contact-info`,
+              role: 'assistant',
+              content: 'Here is their contact info:',
+              timestamp: new Date(),
+            }
+            setMessages((prev) => [...prev, contactInfoMessage])
+            
+            await new Promise(resolve => setTimeout(resolve, 800))
+            
+            // Add contact card message
+            const contactCardMessage: Message = {
+              id: `${Date.now()}-contact-card`,
+              role: 'assistant',
+              content: '',
+              timestamp: new Date(),
+              contactCard: response.contactCard,
+            }
+            setMessages((prev) => [...prev, contactCardMessage])
+          }
         } else {
           // No dialogue - send as single message
           const assistantMessage: Message = {
@@ -471,6 +562,32 @@ export default function ChatInterface({
           }
 
           setMessages((prev) => [...prev, assistantMessage])
+          
+          // If there's a contact card (saint was detected), add follow-up message
+          if (response.contactCard && mode === 'general') {
+            await new Promise(resolve => setTimeout(resolve, 1500))
+            
+            // Add "Here is their contact info" message
+            const contactInfoMessage: Message = {
+              id: `${Date.now()}-contact-info`,
+              role: 'assistant',
+              content: 'Here is their contact info:',
+              timestamp: new Date(),
+            }
+            setMessages((prev) => [...prev, contactInfoMessage])
+            
+            await new Promise(resolve => setTimeout(resolve, 800))
+            
+            // Add contact card message
+            const contactCardMessage: Message = {
+              id: `${Date.now()}-contact-card`,
+              role: 'assistant',
+              content: '', // Empty content, contact card will be rendered separately
+              timestamp: new Date(),
+              contactCard: response.contactCard,
+            }
+            setMessages((prev) => [...prev, contactCardMessage])
+          }
         }
       }
     } catch (error: any) {
@@ -593,20 +710,132 @@ export default function ChatInterface({
     return false
   }
 
-  // Handle quick question selection
-  const handleQuickQuestion = (question: string) => {
-    setInputText(question)
+  // Handle quick question selection - automatically send the message
+  const handleQuickQuestion = async (question: string) => {
     setShowQuickQuestions(false)
-    // Removed auto-focus
+    
+    // Prevent emoji-only messages from users
+    if (isEmojiOnly(question)) {
+      console.log('[ChatInterface] Blocked emoji-only quick question')
+      return
+    }
+    
+    // Create user message immediately
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: question,
+      timestamp: new Date(),
+    }
+
+    setMessages((prev) => [...prev, userMessage])
+    setInputText('')
+    setIsLoading(true)
+    setIsWaitingForAPI(true)
+    
+    console.log('🔒 Input disabled - processing quick question')
+
+    try {
+      let response
+
+      if (mode === 'general' && apiEndpoint) {
+        // General mode - use custom API endpoint
+        const res = await fetch(apiEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: question }),
+        })
+        if (!res.ok) {
+          // Try to get error details
+          let errorMessage = 'Failed to get response'
+          try {
+            const errorData = await res.json()
+            errorMessage = errorData.error || errorData.message || errorMessage
+            console.error('[ChatInterface] Chorus API error:', errorData)
+          } catch (e) {
+            const errorText = await res.text()
+            console.error('[ChatInterface] Chorus API error text:', errorText)
+            errorMessage = errorText || errorMessage
+          }
+          throw new Error(errorMessage)
+        }
+        response = await res.json()
+        console.log('[ChatInterface] Chorus response:', { 
+          hasText: !!response.text, 
+          hasContactCard: !!response.contactCard,
+          contactCardSaint: response.contactCard?.displayName 
+        })
+      } else {
+        // Saint mode - use askSaint API
+        const useEmojiStory = isAskingForStory(question, messages)
+        response = await askSaint({
+          text: question,
+          saintSlug: selectedSaint!.slug,
+          style: useEmojiStory ? 'emoji-story' : 'saint',
+        })
+      }
+      
+      setIsWaitingForAPI(false)
+      console.log('✅ API response received')
+
+      // Handle response (same logic as handleSendMessage)
+      // For simplicity, we'll reuse the existing response handling
+      // But we need to handle it here for quick questions
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: response.text,
+        timestamp: new Date(),
+        saint: response.saint,
+        sources: response.sources,
+      }
+
+      setMessages((prev) => [...prev, assistantMessage])
+      
+      // If there's a contact card (saint was detected), add follow-up message
+      if (response.contactCard && mode === 'general') {
+        await new Promise(resolve => setTimeout(resolve, 1500))
+        
+        const contactInfoMessage: Message = {
+          id: `${Date.now()}-contact-info`,
+          role: 'assistant',
+          content: 'Here is their contact info:',
+          timestamp: new Date(),
+        }
+        setMessages((prev) => [...prev, contactInfoMessage])
+        
+        await new Promise(resolve => setTimeout(resolve, 800))
+        
+        const contactCardMessage: Message = {
+          id: `${Date.now()}-contact-card`,
+          role: 'assistant',
+          content: '',
+          timestamp: new Date(),
+          contactCard: response.contactCard,
+        }
+        setMessages((prev) => [...prev, contactCardMessage])
+      }
+    } catch (error: any) {
+      console.error('❌ Error sending quick question:', error)
+      setIsWaitingForAPI(false)
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: `Error: ${error.message || 'Failed to get response'}`,
+        timestamp: new Date(),
+      }
+      setMessages((prev) => [...prev, errorMessage])
+    } finally {
+      console.log('🔓 Input re-enabled - ready for next message')
+      setIsLoading(false)
+    }
   }
 
-  // Handle random question selection
-  const handleRandomQuestion = () => {
+  // Handle random question selection - automatically send the message
+  const handleRandomQuestion = async () => {
     const randomIndex = Math.floor(Math.random() * randomQuestions.length)
     const randomQuestion = randomQuestions[randomIndex]
-    setInputText(randomQuestion)
-    setShowQuickQuestions(false)
-    // Removed auto-focus
+    await handleQuickQuestion(randomQuestion)
   }
 
   // Quick question templates (use custom or defaults)
@@ -715,9 +944,11 @@ export default function ChatInterface({
                 className="btn"
                 onClick={() => {
                   // Select a random saint
-                  const randomIndex = Math.floor(Math.random() * SEED_SAINTS.length)
-                  const randomSaint = SEED_SAINTS[randomIndex]
-                  handleSelectSaint(randomSaint)
+                  if (saints.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * saints.length)
+                    const randomSaint = saints[randomIndex]
+                    handleSelectSaint(randomSaint)
+                  }
                 }}
                 style={{
                   background: 'white',
@@ -798,6 +1029,17 @@ export default function ChatInterface({
                             {source.publisher || 'Source'}
                           </a>
                         ))}
+                      </div>
+                    )}
+                    {message.contactCard && (
+                      <div style={{ marginTop: '12px' }}>
+                        <ContactCard 
+                          saint={message.contactCard}
+                          onOpenCard={(saint) => {
+                            setSelectedContactSaint(saint)
+                            setShowContactCardModal(true)
+                          }}
+                        />
                       </div>
                     )}
                   </div>
@@ -881,6 +1123,25 @@ export default function ChatInterface({
           </button>
         </div>
       </div>
+      
+      {/* Contact Card Modal */}
+      {showContactCardModal && selectedContactSaint && (
+        <SaintCard
+          saint={selectedContactSaint}
+          onStartChat={() => {
+            setShowContactCardModal(false)
+            if (mode === 'saint') {
+              setSelectedSaint(selectedContactSaint)
+            } else {
+              navigate(`/chat?saint=${selectedContactSaint.slug}`)
+            }
+          }}
+          onClose={() => {
+            setShowContactCardModal(false)
+            setSelectedContactSaint(null)
+          }}
+        />
+      )}
     </div>
   )
 }

@@ -2,8 +2,8 @@
 
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import AppHeader from './AppHeader'
-import { SEED_SAINTS } from '@/lib/seed'
-import type { Saint } from '@/lib/types'
+import { useSaints } from '@/lib/useSaints'
+import { getUpcomingFeastDays } from '@/lib/feastDaysService'
 import styles from './HomeScreen.module.css'
 
 interface AppIcon {
@@ -14,14 +14,6 @@ interface AppIcon {
   color: string
   href: string
   external?: boolean // Open in new window instead of routing
-}
-
-interface FeastDay {
-  date: Date
-  dateStr: string
-  saints: Saint[]
-  isToday: boolean
-  isTomorrow: boolean
 }
 
 const apps: AppIcon[] = [
@@ -61,13 +53,6 @@ const apps: AppIcon[] = [
     href: '/patronages'
   },
   {
-    id: 'saints-with-beards',
-    name: 'Bearded Brothers',
-    icon: 'fa-user-circle',
-    color: 'linear-gradient(135deg, #8b7355 0%, #5a4a3a 100%)', // Brown gradient
-    href: '/saints-with-beards'
-  },
-  {
     id: 'geography',
     name: 'Geography',
     icon: 'fa-globe-americas',
@@ -96,50 +81,14 @@ export default function HomeScreen() {
   const navigate = useNavigate()
   const location = useLocation()
   const pathname = location.pathname
+  const { saints } = useSaints()
   
   console.log('🏠 HomeScreen rendered')
   console.log('📱 Apps array:', apps)
-  console.log('📊 SEED_SAINTS count:', SEED_SAINTS.length)
+  console.log('📊 Saints count:', saints.length)
   
-  // Check for feast days today and tomorrow
-  const getFeastDays = (): FeastDay[] => {
-    const today = new Date()
-    const tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    
-    const todayMMDD = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
-    const tomorrowMMDD = `${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`
-    
-    const feastDays: FeastDay[] = []
-    
-    // Check today
-    const todaySaints = SEED_SAINTS.filter(s => s.feastDay === todayMMDD)
-    if (todaySaints.length > 0) {
-      feastDays.push({
-        date: today,
-        dateStr: today.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }),
-        saints: todaySaints,
-        isToday: true,
-        isTomorrow: false,
-      })
-    }
-    
-    // Check tomorrow
-    const tomorrowSaints = SEED_SAINTS.filter(s => s.feastDay === tomorrowMMDD)
-    if (tomorrowSaints.length > 0) {
-      feastDays.push({
-        date: tomorrow,
-        dateStr: tomorrow.toLocaleDateString('en-US', { month: 'long', day: 'numeric' }),
-        saints: tomorrowSaints,
-        isToday: false,
-        isTomorrow: true,
-      })
-    }
-    
-    return feastDays
-  }
-
-  const feastDays = getFeastDays()
+  // Get upcoming feast days using the service (uses database data, falls back to seed)
+  const feastDays = getUpcomingFeastDays(saints)
 
   return (
     <div className={styles.phoneScreen}>

@@ -19,9 +19,17 @@ const admin = require('firebase-admin');
 const { getFirestore } = require('firebase-admin/firestore');
 
 if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: "st-ann-ai",
-  });
+  if (process.env.FUNCTIONS_EMULATOR === "true") {
+    admin.initializeApp({
+      projectId: "ask-sky-message",
+    });
+  } else if (process.env.FIREBASE_CONFIG) {
+    admin.initializeApp();
+  } else {
+    admin.initializeApp({
+      projectId: "ask-sky-message",
+    });
+  }
 }
 
 function parseArgs() {
@@ -78,7 +86,7 @@ async function addSaint(data) {
   console.log(`➕ Adding saint: ${data.displayName} (${data.slug})\n`);
   
   try {
-    const db = getFirestore(admin.app(), 'skymessage');
+    const db = getFirestore(admin.app()); // Use default database
     const docRef = db.collection('saints').doc(data.slug);
     
     // Check if saint already exists

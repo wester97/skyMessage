@@ -1,20 +1,20 @@
 /**
  * Firestore database connection for saints
- * Uses Firestore collection: 'saints' in the 'skymessage' database
+ * Uses Firestore collection: 'saints' in the default database
  */
 
 const admin = require('firebase-admin');
 const { getFirestore } = require('firebase-admin/firestore');
 
-// Get Firestore instance for skymessage database
+// Get Firestore instance for default database
 function getFirestoreInstance() {
   // admin is already initialized in index.js
   if (!admin.apps.length) {
     admin.initializeApp();
   }
-  // Use modular SDK to access named database
+  // Use default database
   const app = admin.app();
-  return getFirestore(app, 'skymessage');
+  return getFirestore(app);
 }
 
 // Get saints collection

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './AppHeader.module.css'
 
 interface AppHeaderProps {
@@ -10,6 +10,8 @@ interface AppHeaderProps {
 
 export default function AppHeader({ transparent = false }: AppHeaderProps = {}) {
   const [currentTime, setCurrentTime] = useState('')
+  const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     const updateTime = () => {
@@ -28,11 +30,32 @@ export default function AppHeader({ transparent = false }: AppHeaderProps = {}) 
     return () => clearInterval(interval)
   }, [])
 
+  const handleHomeClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    // If already on home, do nothing (or refresh if needed)
+    if (location.pathname === '/') {
+      return
+    }
+    
+    // Navigate to home using React Router
+    navigate('/', { replace: false })
+    
+    // Force scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <div className={`${styles.appHeader} ${transparent ? styles.transparent : ''}`}>
-      <Link to="/" className={styles.homeButton}>
+      <button 
+        onClick={handleHomeClick}
+        className={styles.homeButton}
+        type="button"
+        aria-label="Home"
+      >
         <i className="fas fa-home"></i>
-      </Link>
+      </button>
 
       <div className={styles.centerInfo}>
         <span className={styles.time}>{currentTime}</span>

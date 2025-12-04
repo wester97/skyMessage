@@ -2,10 +2,79 @@
 
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { SEED_SAINTS } from '@/lib/seed'
 import { CONFIRMATION_QUESTIONS, getSaintTraits, type Question } from '@/lib/confirmationQuestions'
+import { matchSaints } from '@/lib/api'
 import type { Saint } from '@/lib/types'
+import { useSaints } from '@/lib/useSaints'
 import styles from './ConfirmationFinder.module.css'
+
+// Generate a fallback summary for saints
+function generateFallbackSummary(saint: Saint): string {
+  const parts = []
+  
+  if (saint.era) {
+    parts.push(`Lived in the ${saint.era}`)
+  }
+  
+  if (saint.patronages && saint.patronages.length > 0) {
+    const patronagesList = saint.patronages.slice(0, 3).join(', ')
+    parts.push(`Patron saint of ${patronagesList}`)
+  }
+  
+  return parts.length > 0 ? parts.join('. ') + '.' : `A beloved Catholic saint.`
+}
+
+// Loading animation component
+function LoadingAnimation({ traits, saints }: { traits: string[]; saints: Saint[] }) {
+  // Get saint names for scrolling
+  const saintNames = saints.map(s => s.displayName)
+  
+  // Format traits for display
+  const formattedTraits = traits.map(t => {
+    // Convert snake_case to Title Case
+    return t.split('_').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ')
+  })
+  
+  return (
+    <div className={styles.loadingAnimation}>
+      <div className={styles.cloudContainer}>
+        <div className={styles.cloud}>
+          <i className="fas fa-cloud"></i>
+          <div className={styles.cloudSpinner}></div>
+        </div>
+        <p className={styles.loadingText}>Finding your perfect saint match...</p>
+      </div>
+      
+      <div className={styles.scrollingContainer}>
+        <div className={styles.scrollTrack}>
+          <div className={`${styles.scrollContent} ${styles.scrollRight}`}>
+            {formattedTraits.map((trait, i) => (
+              <span key={i} className={styles.scrollItem}>{trait}</span>
+            ))}
+            {/* Duplicate for seamless loop */}
+            {formattedTraits.map((trait, i) => (
+              <span key={`dup-${i}`} className={styles.scrollItem}>{trait}</span>
+            ))}
+          </div>
+        </div>
+        
+        <div className={styles.scrollTrack}>
+          <div className={`${styles.scrollContent} ${styles.scrollLeft}`}>
+            {/* Duplicate for seamless loop - start with second copy */}
+            {saintNames.map((name, i) => (
+              <span key={`dup-${i}`} className={styles.scrollItem}>{name}</span>
+            ))}
+            {saintNames.map((name, i) => (
+              <span key={i} className={styles.scrollItem}>{name}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 interface Answer {
   questionId: string
@@ -17,54 +86,19 @@ export default function ConfirmationFinder() {
   const navigate = useNavigate()
   const location = useLocation()
   const pathname = location.pathname
+  const { saints } = useSaints()
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Answer[]>([])
   const [isAnimating, setIsAnimating] = useState(false)
   const [exitDirection, setExitDirection] = useState<'left' | 'right' | null>(null)
   const [showResults, setShowResults] = useState(false)
-  const [matchedSaints, setMatchedSaints] = useState<Array<{ saint: Saint; score: number }>>([])
+  const [matchedSaints, setMatchedSaints] = useState<Array<{ saint: Saint; score: number; explanation?: string; summary?: string }>>([])
   const [flashColor, setFlashColor] = useState<string | null>(null)
+  const [isMatching, setIsMatching] = useState(false)
 
   useEffect(() => {
-    // Use multiple log levels
-    console.log('🎯 [ConfirmationFinder] Component mounted')
-    console.warn('🎯 [ConfirmationFinder] WARN: Component mounted')
-    console.error('🎯 [ConfirmationFinder] ERROR: Component mounted (debug)')
-    
-    if (typeof window !== 'undefined') {
-      (window as any).__CONFIRMATION_FINDER_LOADED__ = true
-      console.log('🎯 [ConfirmationFinder] Pathname:', pathname)
-      console.log('🎯 [ConfirmationFinder] Window location:', window.location.href)
-    }
-    
-    // Check if wrapper is in DOM
-    setTimeout(() => {
-      const wrapper = document.querySelector('[data-confirmation-wrapper]') as HTMLElement | null
-      console.log('🎯 [ConfirmationFinder] DOM check - Wrapper:', !!wrapper)
-      if (wrapper) {
-        const styles = window.getComputedStyle(wrapper)
-        console.log('🎯 [ConfirmationFinder] Wrapper styles:', {
-          display: styles.display,
-          visibility: styles.visibility,
-          opacity: styles.opacity,
-          width: wrapper.offsetWidth,
-          height: wrapper.offsetHeight
-        })
-        console.log('🎯 [ConfirmationFinder] Wrapper visible:', wrapper.offsetWidth > 0 && wrapper.offsetHeight > 0)
-      } else {
-        console.error('🎯 [ConfirmationFinder] ERROR: Wrapper not found in DOM!')
-        // Add visible error indicator
-        const errorDiv = document.createElement('div')
-        errorDiv.style.cssText = 'position: fixed; top: 50px; left: 0; right: 0; background: orange; color: black; padding: 10px; z-index: 9999;'
-        errorDiv.textContent = 'ERROR: ConfirmationFinder wrapper not found in DOM'
-        document.body.appendChild(errorDiv)
-      }
-    }, 100)
+    // Component mounted
   }, [pathname])
-  
-  if (typeof window !== 'undefined') {
-    console.log('🎯 [ConfirmationFinder] Rendering, showResults:', showResults, 'currentQuestionIndex:', currentQuestionIndex)
-  }
 
   const currentQuestion = CONFIRMATION_QUESTIONS[currentQuestionIndex]
   const progress = ((currentQuestionIndex + 1) / CONFIRMATION_QUESTIONS.length) * 100
@@ -98,29 +132,77 @@ export default function ConfirmationFinder() {
         // Fade back to normal after flash
         setTimeout(() => setFlashColor(null), 200)
       } else {
-        // Calculate matches
-        calculateMatches([...answers, newAnswer])
-        setShowResults(true)
+        // Calculate matches (async)
+        calculateMatches([...answers, newAnswer]).then(() => {
+          setShowResults(true)
+        })
         setExitDirection(null)
         setTimeout(() => setFlashColor(null), 200)
       }
     }, 400)
   }
 
-  // Calculate saint matches based on answers
-  const calculateMatches = (allAnswers: Answer[]) => {
+  // Calculate saint matches using AI
+  const calculateMatches = async (allAnswers: Answer[]) => {
+    setIsMatching(true)
+    try {
+      // Collect all selected traits
+      const selectedTraits = new Set<string>()
+      allAnswers.forEach(answer => {
+        answer.traits.forEach(trait => selectedTraits.add(trait))
+      })
+
+      // Get user's gender (must match)
+      const genderAnswer = allAnswers.find(a => a.questionId === 'gender')
+      const userGender = genderAnswer?.traits[0] as 'male' | 'female' | undefined
+
+      if (!userGender) {
+        console.error('No gender found in answers')
+        setIsMatching(false)
+        return
+      }
+
+      // Convert traits set to array (excluding gender)
+      const traitsArray = Array.from(selectedTraits).filter(t => t !== 'male' && t !== 'female')
+
+      // Call AI matching service
+      const response = await matchSaints({
+        traits: traitsArray,
+        gender: userGender,
+      })
+
+      // Convert response to expected format
+      const matches = response.matches.map(match => ({
+        saint: match.saint,
+        score: match.score,
+        explanation: match.explanation,
+        summary: match.summary,
+      }))
+
+      setMatchedSaints(matches)
+    } catch (error) {
+      console.error('Error matching saints with AI:', error)
+      // Fallback to simple trait matching if AI fails
+      fallbackTraitMatching(allAnswers)
+    } finally {
+      setIsMatching(false)
+    }
+  }
+
+  // Fallback to simple trait matching if AI fails
+  const fallbackTraitMatching = (allAnswers: Answer[]) => {
     // Collect all selected traits
     const selectedTraits = new Set<string>()
     allAnswers.forEach(answer => {
       answer.traits.forEach(trait => selectedTraits.add(trait))
     })
 
-    // Get gender preference (must match)
-    const genderPreference = allAnswers.find(a => a.questionId === 'gender')
-    const requiredGender = genderPreference?.traits[0] // 'male' or 'female'
+    // Get user's gender (must match)
+    const genderAnswer = allAnswers.find(a => a.questionId === 'gender')
+    const requiredGender = genderAnswer?.traits[0] // 'male' or 'female'
 
     // Score each saint
-    const scoredSaints = SEED_SAINTS.map(saint => {
+    const scoredSaints = saints.map(saint => {
       const saintTraits = getSaintTraits(saint)
       
       // Filter by gender first - must match
@@ -137,12 +219,13 @@ export default function ConfirmationFinder() {
         }
       })
       
-      // Bonus for multiple matches
+      // Calculate match percentage (0-100%)
       const nonGenderTraits = Array.from(selectedTraits).filter(t => t !== 'male' && t !== 'female')
       const matchRatio = score / Math.max(nonGenderTraits.length, 1)
-      score = score * (1 + matchRatio) // Weighted score
+      // Convert to percentage (0-1 range)
+      const percentageScore = Math.min(matchRatio, 1.0)
       
-      return { saint, score }
+      return { saint, score: percentageScore }
     })
 
     // Sort by score and take top 10
@@ -150,6 +233,11 @@ export default function ConfirmationFinder() {
       .filter(match => match.score > 0)
       .sort((a, b) => b.score - a.score)
       .slice(0, 10)
+      .map(match => ({
+        ...match,
+        explanation: `Matched ${Math.round(match.score * 100)}% of your traits.`,
+        summary: generateFallbackSummary(match.saint),
+      }))
 
     setMatchedSaints(topMatches)
   }
@@ -178,49 +266,72 @@ export default function ConfirmationFinder() {
           <p>Based on your answers, here are saints that align with your values:</p>
         </div>
         
-        <div className={styles.resultsList}>
-          {matchedSaints.length > 0 ? (
-            matchedSaints.map((match, index) => (
-              <div 
-                key={match.saint.slug} 
-                className={styles.resultCard}
-                onClick={() => navigate(`/chat?saint=${match.saint.slug}&greeting=true`)}
-              >
-                <div className={styles.resultRank}>#{index + 1}</div>
-                <div className={styles.resultContent}>
-                  <h3>{match.saint.displayName}</h3>
-                  {match.saint.era && <p className={styles.resultEra}>{match.saint.era}</p>}
-                  {match.saint.patronages && match.saint.patronages.length > 0 && (
-                    <div className={styles.resultPatronages}>
-                      {match.saint.patronages.slice(0, 3).map((p, i) => (
-                        <span key={i} className={styles.patronageTag}>{p}</span>
-                      ))}
+        {isMatching ? (
+          <LoadingAnimation 
+            saints={saints}
+            traits={(() => {
+              const allTraits = new Set<string>()
+              answers.forEach(answer => {
+                answer.traits.forEach(trait => {
+                  if (trait !== 'male' && trait !== 'female') {
+                    allTraits.add(trait)
+                  }
+                })
+              })
+              return Array.from(allTraits)
+            })()}
+          />
+        ) : (
+          <div className={styles.resultsList}>
+            {matchedSaints.length > 0 ? (
+              matchedSaints.map((match, index) => (
+                <div 
+                  key={match.saint.slug} 
+                  className={styles.resultCard}
+                  onClick={() => navigate(`/chat?saint=${match.saint.slug}&greeting=true`)}
+                >
+                  <div className={styles.resultRank}>#{index + 1}</div>
+                  <div className={styles.resultContent}>
+                    <h3>{match.saint.displayName}</h3>
+                    {match.saint.era && <p className={styles.resultEra}>{match.saint.era}</p>}
+                    {match.summary && (
+                      <p className={styles.saintSummary}>{match.summary}</p>
+                    )}
+                    {match.saint.patronages && match.saint.patronages.length > 0 && (
+                      <div className={styles.resultPatronages}>
+                        {match.saint.patronages.slice(0, 3).map((p, i) => (
+                          <span key={i} className={styles.patronageTag}>{p}</span>
+                        ))}
+                      </div>
+                    )}
+                    {match.explanation && (
+                      <p className={styles.matchExplanation}>{match.explanation}</p>
+                    )}
+                    <div className={styles.matchScore}>
+                      Match: {Math.round(match.score * 100)}%
                     </div>
-                  )}
-                  <div className={styles.matchScore}>
-                    Match: {Math.round(match.score * 10)}%
                   </div>
+                  <i className="fas fa-chevron-right"></i>
                 </div>
-                <i className="fas fa-chevron-right"></i>
+              ))
+            ) : (
+              <div className={styles.noResults}>
+                <p>No matches found. Try again with different answers!</p>
+                <button 
+                  className={styles.restartButton}
+                  onClick={() => {
+                    setCurrentQuestionIndex(0)
+                    setAnswers([])
+                    setShowResults(false)
+                    setMatchedSaints([])
+                  }}
+                >
+                  Start Over
+                </button>
               </div>
-            ))
-          ) : (
-            <div className={styles.noResults}>
-              <p>No matches found. Try again with different answers!</p>
-              <button 
-                className={styles.restartButton}
-                onClick={() => {
-                  setCurrentQuestionIndex(0)
-                  setAnswers([])
-                  setShowResults(false)
-                  setMatchedSaints([])
-                }}
-              >
-                Start Over
-              </button>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
         
         <button 
           className={styles.restartButton}

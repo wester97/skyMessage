@@ -295,6 +295,14 @@
   flex: 1;
 }
 
+.matchExplanation {
+  font-size: 14px;
+  color: #666;
+  margin: 8px 0;
+  line-height: 1.4;
+  font-style: italic;
+}
+
 .resultContent h3 {
   font-size: 20px;
   font-weight: 700;
@@ -306,6 +314,14 @@
   font-size: 14px;
   color: #666;
   margin: 0 0 8px 0;
+}
+
+.saintSummary {
+  font-size: 15px;
+  color: #444;
+  margin: 0 0 10px 0;
+  line-height: 1.5;
+  font-weight: 500;
 }
 
 .resultPatronages {
@@ -333,6 +349,170 @@
 .resultCard i {
   color: #999;
   font-size: 18px;
+}
+
+.loadingAnimation {
+  padding: 40px 20px;
+  color: white;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.cloudContainer {
+  text-align: center;
+  position: relative;
+}
+
+.cloud {
+  position: relative;
+  display: inline-block;
+  font-size: 80px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+}
+
+.cloud i {
+  position: relative;
+  z-index: 2;
+  animation: float 3s ease-in-out infinite;
+}
+
+.cloudSpinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 1;
+}
+
+.loadingText {
+  font-size: 20px;
+  font-weight: 500;
+  opacity: 0.95;
+  margin: 0;
+}
+
+.scrollingContainer {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.scrollTrack {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 8px 0;
+}
+
+.scrollContent {
+  display: inline-flex;
+  gap: 30px;
+  white-space: nowrap;
+  height: 100%;
+  align-items: center;
+  will-change: transform;
+  /* Ensure smooth scrolling */
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.scrollRight {
+  animation: scrollRight 20s linear infinite;
+}
+
+.scrollLeft {
+  animation: scrollLeft 25s linear infinite;
+}
+
+.scrollItem {
+  display: inline-block;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Marquee: scroll right to left (user traits) */
+@keyframes scrollRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Marquee: scroll left to right (saint names) */
+@keyframes scrollLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(50%);
+  }
+}
+
+@media (max-width: 767px) {
+  .loadingAnimation {
+    padding: 30px 16px;
+    min-height: 300px;
+    gap: 30px;
+  }
+  
+  .cloud {
+    font-size: 60px;
+  }
+  
+  .cloudSpinner {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .loadingText {
+    font-size: 16px;
+  }
+  
+  .scrollTrack {
+    height: 35px;
+  }
+  
+  .scrollItem {
+    font-size: 12px;
+    padding: 3px 10px;
+  }
 }
 
 .noResults {

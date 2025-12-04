@@ -1,5 +1,7 @@
 import type { AskSaintRequest, AskSaintResponse } from './types'
 
+// Firebase Functions v2 uses Cloud Run URLs
+const ASK_SKY_URL = process.env.NEXT_PUBLIC_ASK_SKY_URL || 'https://asksky-url7abqc5a-uc.a.run.app'
 const FUNCTIONS_URL = process.env.NEXT_PUBLIC_FUNCTIONS_URL || 'https://us-central1-ask-sky-message.cloudfunctions.net'
 const USE_MOCK = false // Backend is now live!
 
@@ -67,9 +69,10 @@ export async function askSaint(request: AskSaintRequest): Promise<AskSaintRespon
     return getMockResponse(request)
   }
   
-  // Real API call
-  const response = await fetch(`${FUNCTIONS_URL}/askSky`, {
+  // Real API call - use v2 Cloud Run URL
+  const response = await fetch(ASK_SKY_URL, {
     method: 'POST',
+    mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -100,5 +103,44 @@ export async function ingestSaintContent(saintSlug: string) {
   }
 
   return await response.json()
+}
+
+export async function matchSaints(request: import('./types').MatchSaintsRequest): Promise<import('./types').MatchSaintsResponse> {
+  // Firebase Functions v2 uses Cloud Run URLs
+  const cloudRunUrl = 'https://matchsaints-url7abqc5a-uc.a.run.app'
+  
+  console.log('[API] Calling matchSaints with:', { traits: request.traits, gender: request.gender })
+  console.log('[API] Using Cloud Run URL:', cloudRunUrl)
+  
+  const response = await fetch(cloudRunUrl, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      traits: request.traits,
+      gender: request.gender,
+    }),
+  })
+
+  console.log('[API] Response status:', response.status)
+  console.log('[API] Response ok:', response.ok)
+
+  if (!response.ok) {
+    const errorText = await response.text()
+    console.error('[API] Error response:', errorText)
+    let error
+    try {
+      error = JSON.parse(errorText)
+    } catch {
+      error = { error: errorText || 'Unknown error' }
+    }
+    throw new Error(error.error || `HTTP ${response.status}`)
+  }
+
+  const data = await response.json()
+  console.log('[API] Success response:', data)
+  return data
 }
 

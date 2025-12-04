@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { SEED_SAINTS } from '@/lib/seed'
+import type { Saint } from '@/lib/types'
+import { useSaints } from '@/lib/useSaints'
 import styles from './CalendarListView.module.css'
 
 interface FeastEvent {
@@ -27,6 +28,9 @@ export default function CalendarListView() {
   const monthRefs = useRef<Map<string, HTMLDivElement>>(new Map()) // Key: "year-month"
   const sentinelRef = useRef<HTMLDivElement>(null)
 
+  // Fetch saints from Firestore via API
+  const { saints } = useSaints()
+
   // Get all feast days grouped by month
   const feastDaysByMonth = useMemo(() => {
     const today = new Date()
@@ -35,7 +39,7 @@ export default function CalendarListView() {
     // Group saints by their feast day
     const feastMap = new Map<string, FeastEvent>()
     
-    SEED_SAINTS.forEach((saint) => {
+    saints.forEach((saint) => {
       if (saint.feastDay) {
         const [month, day] = saint.feastDay.split('-').map(Number)
         const monthIndex = month - 1 // Convert to 0-based
@@ -71,8 +75,17 @@ export default function CalendarListView() {
       events.sort((a, b) => a.day - b.day)
     })
     
-    // Reorder months starting from current month
+    // Reorder months starting from previous month (to show context before today)
     const orderedMonths: Array<{ month: number; events: FeastEvent[] }> = []
+    
+    // Add previous month (if it has events)
+    const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1
+    if (byMonth.has(previousMonth)) {
+      orderedMonths.push({
+        month: previousMonth,
+        events: byMonth.get(previousMonth)!
+      })
+    }
     
     // Add months from current month to December
     for (let m = currentMonth; m < 12; m++) {
@@ -84,8 +97,8 @@ export default function CalendarListView() {
       }
     }
     
-    // Add months from January to before current month
-    for (let m = 0; m < currentMonth; m++) {
+    // Add months from January to before previous month
+    for (let m = 0; m < previousMonth; m++) {
       if (byMonth.has(m)) {
         orderedMonths.push({
           month: m,
@@ -95,14 +108,48 @@ export default function CalendarListView() {
     }
     
     return orderedMonths
-  }, [])
+  }, [saints])
 
-  // Set initial sticky month to current month
+  // Set initial sticky month to current month and scroll to today
   useEffect(() => {
     const today = new Date()
     const currentMonth = today.getMonth()
     setStickyMonth(currentMonth)
-  }, [])
+    
+    // Scroll to today marker after a short delay to ensure DOM is ready
+    const scrollToToday = () => {
+      const container = containerRef.current
+      if (!container) return
+      
+      // Find the today marker or today event
+      const todayMarker = container.querySelector('[data-today-marker]') as HTMLElement
+      const todayEvent = container.querySelector('[data-today-event]') as HTMLElement
+      const targetElement = todayMarker || todayEvent
+      
+      if (targetElement) {
+        // Calculate scroll position to center the today marker in the viewport
+        const containerRect = container.getBoundingClientRect()
+        const targetRect = targetElement.getBoundingClientRect()
+        const scrollTop = container.scrollTop
+        const targetTop = targetRect.top - containerRect.top + scrollTop
+        const containerHeight = container.clientHeight
+        const targetHeight = targetElement.offsetHeight
+        
+        // Center the target in the viewport
+        const scrollPosition = targetTop - (containerHeight / 2) + (targetHeight / 2)
+        
+        container.scrollTo({
+          top: Math.max(0, scrollPosition),
+          behavior: 'smooth'
+        })
+      }
+    }
+    
+    // Try scrolling after a short delay to ensure content is rendered
+    const timeoutId = setTimeout(scrollToToday, 300)
+    
+    return () => clearTimeout(timeoutId)
+  }, [feastDaysByMonth])
 
   // Handle scroll to update sticky month and load more years
   useEffect(() => {
@@ -242,25 +289,17 @@ export default function CalendarListView() {
               </div>
               
               <div className={styles.eventsList}>
-                {/* Show "today" marker at start if today is before all events */}
-                {isCurrentMonth && events.length > 0 && events[0].day > todayDate.day && (
-                  <div className={styles.todayMarker}>
-                    <div className={styles.todayDateLine}>
-                      <span className={styles.todayBadge}>Today</span>
-                      <span className={styles.todayDateText}>{formatDate(todayDate.month, todayDate.day)}</span>
-                      <span className={styles.todayLine}></span>
-                    </div>
-                  </div>
-                )}
-                
                 {events.map((event, eventIndex) => {
                   const isTodayEvent = eventIndex === todayEventIndex
                   
                   return (
                     <div key={event.date}>
                       {/* Show "today" marker before this event if today falls between events */}
-                      {eventIndex === showTodayBeforeIndex && (
-                        <div className={styles.todayMarker}>
+                      {/* Only show if today doesn't match an event and this is the insertion point */}
+                      {isCurrentMonth && 
+                       todayEventIndex === -1 && 
+                       eventIndex === showTodayBeforeIndex && (
+                        <div className={styles.todayMarker} data-today-marker>
                           <div className={styles.todayDateLine}>
                             <span className={styles.todayBadge}>Today</span>
                             <span className={styles.todayDateText}>{formatDate(todayDate.month, todayDate.day)}</span>
@@ -269,7 +308,10 @@ export default function CalendarListView() {
                         </div>
                       )}
                       
-                      <div className={`${styles.eventItem} ${isTodayEvent ? styles.todayEvent : ''}`}>
+                      <div 
+                        className={`${styles.eventItem} ${isTodayEvent ? styles.todayEvent : ''}`}
+                        data-today-event={isTodayEvent ? 'true' : undefined}
+                      >
                         <div className={styles.eventDate}>
                           {isTodayEvent ? (
                             <div className={styles.todayDateLine}>
@@ -303,12 +345,13 @@ export default function CalendarListView() {
                   )
                 })}
                 
-                {/* Show "today" marker at end if today is after all events */}
+                {/* Show "today" marker at end if today is after all events and doesn't match any event */}
                 {isCurrentMonth && 
+                 todayEventIndex === -1 &&
                  events.length > 0 && 
                  events[events.length - 1].day < todayDate.day && 
                  showTodayBeforeIndex === events.length && (
-                  <div className={styles.todayMarker}>
+                  <div className={styles.todayMarker} data-today-marker>
                     <div className={styles.todayDateLine}>
                       <span className={styles.todayBadge}>Today</span>
                       <span className={styles.todayDateText}>{formatDate(todayDate.month, todayDate.day)}</span>

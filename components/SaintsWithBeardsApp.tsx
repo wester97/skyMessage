@@ -1,16 +1,17 @@
 'use client'
 
 import { useState } from 'react'
-import { SEED_SAINTS } from '@/lib/seed'
 import { Link } from 'react-router-dom'
 import styles from './SaintsWithBeardsApp.module.css'
 import type { Saint } from '@/lib/types'
+import { useSaints } from '@/lib/useSaints'
 
 export default function SaintsWithBeardsApp() {
   const [searchTerm, setSearchTerm] = useState('')
+  const { saints } = useSaints()
 
   // Filter saints with beards
-  const saintsWithBeards = SEED_SAINTS.filter(saint => saint.hasBeard === true)
+  const saintsWithBeards = saints.filter(saint => saint.hasBeard === true)
 
   // Filter by search term
   const filteredSaints = saintsWithBeards.filter((saint) => {
@@ -45,7 +46,7 @@ export default function SaintsWithBeardsApp() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>
-          <i className="fas fa-user-circle"></i> Bearded Brothers
+          <i className="fas fa-user-circle"></i> Saints with Beards
         </h1>
         <p className={styles.subtitle}>
           {saintsWithBeards.length} {saintsWithBeards.length === 1 ? 'saint' : 'saints'} with beards
